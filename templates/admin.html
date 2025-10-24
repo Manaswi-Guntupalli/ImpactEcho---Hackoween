@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ImpactEcho — Admin Panel</title>
+  <link rel="stylesheet" href="/static/style2.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">💖</span><span class="brand-name">ImpactEcho Admin</span>
+    </div>
+    <nav class="nav-right">
+      <button onclick="window.location.href='/'" class="btn-link">Dashboard</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card" style="padding: 20px; max-width: 500px; margin: 30px auto;">
+      <h2>Add New Cause</h2>
+      <form id="addCauseForm">
+        <label>Title</label>
+        <input type="text" id="title" class="input" required />
+
+        <label>Description</label>
+        <textarea id="description" class="input" required></textarea>
+
+        <label>Goal Amount (₹)</label>
+        <input type="number" id="goal" class="input" required />
+
+        <label>Image URL</label>
+        <input type="text" id="image" class="input" required />
+
+        <button type="submit" class="fund-btn" style="margin-top: 15px;">Add Cause</button>
+      </form>
+      <p id="message" class="muted small" style="margin-top:10px;"></p>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('addCauseForm');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = {
+        title: document.getElementById('title').value.trim(),
+        description: document.getElementById('description').value.trim(),
+        goal: Number(document.getElementById('goal').value),
+        image: document.getElementById('image').value.trim()
+      };
+
+      try {
+        const res = await fetch('/causes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+          message.style.color = 'green';
+          message.textContent = `Cause "${result.cause.title}" added successfully!`;
+          form.reset();
+        } else {
+          message.style.color = 'red';
+          message.textContent = result.error || 'Something went wrong';
+        }
+      } catch (err) {
+        message.style.color = 'red';
+        message.textContent = 'Error: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
