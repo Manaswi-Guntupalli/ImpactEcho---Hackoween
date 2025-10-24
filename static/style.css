@@ -23,16 +23,38 @@ body {
 }
 /* Modal overlay covers the entire viewport */
 .modal-overlay {
+  display: none; /* Hide initially */
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.4); /* semi-transparent background */
-  display: flex;                 /* flex to center modal */
-  align-items: center;           /* vertical center */
-  justify-content: center;       /* horizontal center */
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 1000;
+}
+#fundModal {
+  display: none; /* hide initially */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center; /* center modal horizontally */
+  align-items: center;     /* center modal vertically */
+  background-color: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 /* Modal box */

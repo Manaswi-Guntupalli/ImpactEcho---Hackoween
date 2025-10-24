@@ -126,7 +126,6 @@ function handleFundClick(e) {
   modalStep1.style.display = "block";
   modalStep2.style.display = "none";
   fundModal.style.display = "flex";
-
   // Focus input immediately
   fundAmountInput.focus();
 }
