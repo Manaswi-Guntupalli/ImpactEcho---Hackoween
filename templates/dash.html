@@ -114,6 +114,26 @@
       </div>
     </footer>
   </main>
+<div id="fundModal" class="modal-overlay">
+  <div class="modal">
+    <h3 id="modalTitle">Fund Cause</h3>
+    <div id="modalStep1">
+      <p class="muted">Enter the amount you wish to contribute:</p>
+      <input type="number" id="fundAmountInput" class="input" placeholder="₹ Amount" min="1" />
+      <div class="modal-actions">
+        <button id="nextFundBtn" class="btn-primary">Next</button>
+        <button id="cancelFundBtn" class="btn-link">Cancel</button>
+      </div>
+    </div>
+    <div id="modalStep2" style="display:none;">
+      <p class="muted" id="confirmText"></p>
+      <div class="modal-actions">
+        <button id="confirmFundBtn" class="btn-primary">Confirm Payment</button>
+        <button id="backBtn" class="btn-link">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Chatbot JS -->
   <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
