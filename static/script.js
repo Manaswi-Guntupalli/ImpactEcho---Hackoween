@@ -79,29 +79,111 @@ function renderCauses() {
   causesSupportedEl.textContent = supportedCauses.size;
 }
 
-/* --- Handle Funding --- */
+// /* --- Handle Funding --- */
+// function handleFundClick(e) {
+//   const id = Number(e.target.getAttribute("data-id"));
+//   const cause = causes.find((c) => c.id === id);
+//   const amount = Number(prompt(`Enter amount to fund "${cause.title}" (in ₹):`));
+
+//   if (!amount || isNaN(amount) || amount <= 0) return;
+
+//   // Update locally
+//   cause.raised += amount;
+//   totalImpact += amount;
+//   donationsMade++;
+//   livesImpacted += Math.floor(amount / livesPer25);
+//   supportedCauses.add(cause.title);
+
+//   // Update UI immediately
+//   renderCauses();
+//   updateStats();
+//   addRecentDonation(cause.title, amount);
+
+//   // Optional: send update to backend (if you implement it)
+//   // fetch(`/fund/${id}`, { method: 'POST', body: JSON.stringify({ amount }), headers: { 'Content-Type': 'application/json' } });
+// }
+
+let currentCause = null;
+
+const fundModal = document.getElementById("fundModal");
+const modalTitle = document.getElementById("modalTitle");
+const fundAmountInput = document.getElementById("fundAmountInput");
+const nextFundBtn = document.getElementById("nextFundBtn");
+const cancelFundBtn = document.getElementById("cancelFundBtn");
+const modalStep1 = document.getElementById("modalStep1");
+const modalStep2 = document.getElementById("modalStep2");
+const confirmText = document.getElementById("confirmText");
+const confirmFundBtn = document.getElementById("confirmFundBtn");
+const backBtn = document.getElementById("backBtn");
+
+// --- Open Modal ---
 function handleFundClick(e) {
   const id = Number(e.target.getAttribute("data-id"));
-  const cause = causes.find((c) => c.id === id);
-  const amount = Number(prompt(`Enter amount to fund "${cause.title}" (in ₹):`));
+  currentCause = causes.find((c) => c.id === id);
 
-  if (!amount || isNaN(amount) || amount <= 0) return;
+  modalTitle.textContent = `Fund "${currentCause.title}"`;
+  fundAmountInput.value = "";
+  modalStep1.style.display = "block";
+  modalStep2.style.display = "none";
+  fundModal.style.display = "flex";
+  // Focus input immediately
+  fundAmountInput.focus();
+}
 
-  // Update locally
-  cause.raised += amount;
+// --- Step 1 → Step 2 (Confirmation) ---
+nextFundBtn.addEventListener("click", () => {
+  const amount = Number(fundAmountInput.value);
+  if (!amount || isNaN(amount) || amount <= 0) return alert("Please enter a valid amount.");
+
+  // Polished confirmation message
+  confirmText.textContent = `You are about to make a generous donation of ₹${amount.toLocaleString()} to "${currentCause.title}". Please confirm to proceed.`;
+
+  modalStep1.style.display = "none";
+  modalStep2.style.display = "block";
+});
+
+// --- Step 2 → Back ---
+backBtn.addEventListener("click", () => {
+  modalStep1.style.display = "block";
+  modalStep2.style.display = "none";
+  fundAmountInput.focus();
+});
+
+// --- Cancel Modal ---
+cancelFundBtn.addEventListener("click", closeModal);
+fundModal.addEventListener("click", (e) => { if(e.target === fundModal) closeModal(); });
+
+// --- Final Confirm Payment ---
+confirmFundBtn.addEventListener("click", () => {
+  const amount = Number(fundAmountInput.value);
+
+  // Update stats and UI
+  currentCause.raised += amount;
   totalImpact += amount;
   donationsMade++;
   livesImpacted += Math.floor(amount / livesPer25);
-  supportedCauses.add(cause.title);
+  supportedCauses.add(currentCause.title);
 
-  // Update UI immediately
   renderCauses();
   updateStats();
-  addRecentDonation(cause.title, amount);
+  addRecentDonation(currentCause.title, amount);
 
-  // Optional: send update to backend (if you implement it)
-  // fetch(`/fund/${id}`, { method: 'POST', body: JSON.stringify({ amount }), headers: { 'Content-Type': 'application/json' } });
+  // Success feedback
+  confirmFundBtn.textContent = "✅ Payment Successful!";
+  setTimeout(() => {
+    confirmFundBtn.textContent = "Confirm Payment";
+    closeModal();
+  }, 1200);
+});
+
+// --- Helper to close modal ---
+function closeModal() {
+  fundAmountInput.value = "";
+  fundModal.style.display = "none";
+  modalStep1.style.display = "block";
+  modalStep2.style.display = "none";
 }
+
 
 /* --- Stats Update --- */
 function updateStats() {
@@ -135,4 +217,5 @@ function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
 

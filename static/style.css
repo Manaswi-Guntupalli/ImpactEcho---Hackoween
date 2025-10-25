@@ -21,6 +21,99 @@ body {
   margin: 28px auto;
   padding: 0 28px 80px;
 }
+/* Modal overlay covers the entire viewport */
+.modal-overlay {
+  display: none; /* Hide initially */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+#fundModal {
+  display: none; /* hide initially */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center; /* center modal horizontally */
+  align-items: center;     /* center modal vertically */
+  background-color: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Modal box */
+.modal {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  text-align: center;
+  z-index: 1001;
+}
+
+/* Optional: larger modal */
+.modal.modal-large {
+  max-width: 600px;
+  padding: 2.5rem;
+}
+
+/* Input field */
+.modal input {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1.2rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  margin: 1rem 0;
+  color: #222;
+  background: #f5f5f5;
+}
+
+/* Buttons */
+.modal-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+.btn-primary {
+  background: #ff4081;
+  color: #fff;
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+}
+
+.btn-primary:hover { background: #e73370; }
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+
 
 /* Topbar */
 .topbar {
